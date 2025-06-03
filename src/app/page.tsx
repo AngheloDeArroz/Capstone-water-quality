@@ -32,6 +32,7 @@ export default function LandingPage() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>(fallbackProducts);
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
 
   useEffect(() => {
     if (searchTerm === '') {
@@ -45,6 +46,10 @@ export default function LandingPage() {
       setDisplayedProducts(filtered);
     }
   }, [searchTerm]);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-background to-blue-100 dark:to-blue-900">
@@ -143,7 +148,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-muted-foreground">
           <p>Contact RRJ Aquatique:</p>
           <p>Email: <a href="mailto:contact@rrjaquatique.com" className="text-primary hover:underline">contact@rrjaquatique.com</a> | Phone: +1 (555) 123-4567</p>
-          <p className="mt-2">&copy; {new Date().getFullYear()} RRJ Aquatique. All rights reserved.</p>
+          {currentYear && <p className="mt-2">&copy; {currentYear} RRJ Aquatique. All rights reserved.</p>}
         </div>
       </footer>
     </div>

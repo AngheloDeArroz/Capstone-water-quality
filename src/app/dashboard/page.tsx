@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { SystemOverviewCard } from "@/components/dashboard/SystemOverviewCard";
@@ -12,12 +12,17 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function RRJAquatiqueDashboardPage() {
   const { user, loading, logout } = useAuth();
   const router = useRouter();
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
     }
   }, [user, loading, router]);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   if (loading || !user) {
     return (
@@ -66,7 +71,7 @@ export default function RRJAquatiqueDashboardPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-muted-foreground">
           <p>Contact RRJ Aquatique:</p>
           <p>Email: <a href="mailto:contact@rrjaquatique.com" className="text-primary hover:underline">contact@rrjaquatique.com</a> | Phone: +1 (555) 123-4567</p>
-          <p className="mt-2">&copy; {new Date().getFullYear()} RRJ Aquatique. All rights reserved.</p>
+          {currentYear && <p className="mt-2">&copy; {currentYear} RRJ Aquatique. All rights reserved.</p>}
         </div>
       </footer>
     </div>
